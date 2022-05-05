@@ -1,0 +1,18 @@
+* {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+h1, h2 {
+    font-family: 'Monofett', cursive;
+}
+
+body {
+    background-image: url("./background.png");
+}
+
+main {
+    background-color: white; 
+    border-radius: 15px;
+    margin: 2em;
+    padding: 2em;
+}
