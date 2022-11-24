@@ -21,20 +21,38 @@ p {
     max-width: 80vw;
 }
 
+.links {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
 .btn {
     text-decoration: none;
     margin: 1em 0;
-    padding: 1em;
+    padding: 1em 0.5em;
     display: block;
-    font-size: 2em;
+    font-size: 1.5em;
     text-align: center;
     border: 3px white solid;
     border-radius: 20px;
-    height: 50px;
+    height: 30px;
     width: calc(100%-2em);
 }
 
 .btn:hover {
     background-color: #E2F1F1;
     color: #333333;
+}
+
+@media (min-width: 1310px) {
+  .links {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .btn {
+    display: inline-block;
+    align: justify;
+    width: 20%;
+  }
 }
