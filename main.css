@@ -1,58 +1,40 @@
 * {
-    font-family: 'JetBrains Mono', monospace;
-    box-sizing: border-box;
-}
-
-h1, h2 {
-    font-family: 'Monofett', cursive;
-    color: #271C1B;
-    font-weight: bold;
-    font-size: 5em;
-}
-
-h1 {
-    font-size: 7em;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #F8F3EA;
 }
 
 body {
-    background-image: url("./background.png");
+    background-color: #333333;
 }
 
 main {
-    background-color: white; 
-    border-radius: 15px;
     margin: 2em;
     padding: 2em;
     width: 100%-4em;
 }
 
-a, p {
-    font-size: 2.5em;
+p {
+    font-size: 1em;
 }
 
-a {
-    background-color: #B0CDCF;
-    border: 5px solid #423D34;
-    color: #423D34;
-    font-weight: bold;
+.title-img {
+    max-width: 80vw;
+}
+
+.btn {
+    text-decoration: none;
+    margin: 1em 0;
     padding: 1em;
-    margin-bottom: 1em;
-    text-align: center;
     display: block;
+    font-size: 2em;
+    text-align: center;
+    border: 3px white solid;
+    border-radius: 20px;
+    height: 50px;
+    width: calc(100%-2em);
 }
 
-/* media queries*/
-@media (min-width: 700px) {
-    h1 {
-        font-size: 4em;
-    }
-    h2 {
-        font-size: 3em;
-    }
-    a, p {
-        font-size: 1.5em;
-    }
-    a {
-        display: inline;
-    }
+.btn:hover {
+    background-color: #E2F1F1;
+    color: #333333;
 }
