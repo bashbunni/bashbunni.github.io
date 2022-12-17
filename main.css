@@ -1,58 +1,125 @@
+/* Frappe Theme
+ *
+ * text: #c6d0f5
+ * text-secondary: #8CAAEE
+ * text-background: #B5BFE2
+ * prompt: #EA999C
+ * URLs: #f2d5cf
+ * selection: #626880
+ * active border: #babbf1
+ * background: #303446
+ * */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+
 * {
-    font-family: 'IBM Plex Sans', sans-serif;
-    color: #F8F3EA;
+  background: #303446;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+  color: #c6d0f5;
 }
 
 body {
-    background-color: #333333;
-}
-
-main {
-    margin: 2em;
-    padding: 2em;
-    width: 100%-4em;
-}
-
-p {
-    font-size: 1em;
-}
-
-.title-img {
-    max-width: 80vw;
-}
-
-.links {
+  height: 95vh;
+  padding: 1em;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  overflow: none;
 }
 
-.btn {
-    text-decoration: none;
-    margin: 1em 0;
-    padding: 1em 0.5em;
-    display: block;
-    font-size: 1.5em;
-    text-align: center;
-    border: 3px white solid;
-    border-radius: 20px;
-    height: 30px;
-    width: calc(100%-2em);
+ul {
+  color: #babbf1;
 }
 
-.btn:hover {
-    background-color: #E2F1F1;
-    color: #333333;
+ul:before {
+  content:attr(aria-label);
+  margin-left:-15px;
 }
 
-@media (min-width: 1310px) {
-  .links {
-    flex-direction: row;
-    justify-content: space-between;
+a {
+  color: #f2d5cf;
+  text-decoration: none;
+}
+
+footer {
+  color: #B5BFE2;
+  margin-top: auto;
+}
+
+.text-background {
+  color:#B5BFE2;
+}
+
+.text-secondary {
+  color:#8CAAEE;
+}
+
+.twitch:hover {
+  color: #772ce8;
+}
+
+.youtube:hover {
+  color: #ff0000;
+}
+
+.twitter:hover {
+  color: #1a8cd8;
+}
+
+.instagram:hover {
+  color: #f5006f;
+}
+
+.charm:hover {
+  color: #ff6dff;
+}
+
+.cursor {
+  color: #f2d5cf;
+}
+
+.output {
+  width: 100%;
+  max-width: 80ch;
+  animation: fade 5s;
+  overflow: hidden;
+}
+
+.typeme {
+  width: 30ch;
+  animation: typing 2s steps(25), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 10px solid #f2d5cf;
+}
+
+/* animation */
+
+@keyframes fade {
+  0% { opacity: 0}
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+
+
+@keyframes typing {
+  0% { width: 0; }
+  100% { width: 1; }
+}
+    
+@keyframes blink {
+  50% { border-color: transparent;}
+}
+
+/* dynamic resizing */
+@media (min-width:600px) {
+  body {
+    font-size: 1.25em;
   }
-  .btn {
-    display: inline-block;
-    align: justify;
-    width: 20%;
+}
+
+@media (min-width:1025px) {
+  body {
+    font-size: 1.5em;
   }
 }
