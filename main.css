@@ -20,9 +20,10 @@
 
 body {
   min-height: 95vh;
-  padding: 1em;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
+  font-size: 1rem;
 }
 
 h3 {
@@ -98,11 +99,9 @@ footer {
   100% { opacity: 1; }
 }
 
-
-
 @keyframes typing {
   0% { width: 0; }
-  100% { width: 1; }
+  100% { width: 30ch; }
 }
     
 @keyframes blink {
@@ -112,12 +111,12 @@ footer {
 /* dynamic resizing */
 @media (min-width:600px) {
   body {
-    font-size: 1.25em;
+    font-size: 1.25rem;
   }
 }
 
 @media (min-width:1025px) {
   body {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 }
