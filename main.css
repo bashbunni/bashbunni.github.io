@@ -114,9 +114,3 @@ footer {
     font-size: 1.25rem;
   }
 }
-
-@media (min-width:1025px) {
-  body {
-    font-size: 1.5rem;
-  }
-}
