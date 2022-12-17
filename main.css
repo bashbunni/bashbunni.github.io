@@ -19,11 +19,10 @@
 }
 
 body {
-  height: 95vh;
+  min-height: 95vh;
   padding: 1em;
   display: flex;
   flex-direction: column;
-  overflow: none;
 }
 
 h3 {
@@ -81,7 +80,6 @@ footer {
   width: 100%;
   max-width: 80ch;
   animation: fade 5s;
-  overflow: hidden;
 }
 
 .typeme {
