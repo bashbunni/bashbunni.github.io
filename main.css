@@ -69,6 +69,10 @@ footer {
   color: #f5006f;
 }
 
+.github:hover {
+  color: #a6d189;
+}
+
 .charm:hover {
   color: #ff6dff;
 }
