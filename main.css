@@ -26,13 +26,13 @@ body {
   overflow: none;
 }
 
-ul {
-  color: #babbf1;
-}
-
-ul:before {
-  content:attr(aria-label);
-  margin-left:-15px;
+h3 {
+  display: inline-block;
+  font-size: inherit;
+  padding: 0 0.5em;
+  margin-bottom: 0;
+  background-color: #684eff;
+  color: #fafafa;
 }
 
 a {
