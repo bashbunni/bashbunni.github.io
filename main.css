@@ -61,12 +61,12 @@ footer {
   color: #ff0000;
 }
 
-.twitter:hover {
+.mastodon:hover {
   color: #1a8cd8;
 }
 
-.instagram:hover {
-  color: #f5006f;
+.twitter:hover {
+  color: #1a8cd8;
 }
 
 .github:hover {
