@@ -65,6 +65,10 @@ footer {
   color: #1a8cd8;
 }
 
+.bluesky:hover {
+  color: #208bfe;
+}
+
 .instagram:hover {
   color: #f5006f;
 }
