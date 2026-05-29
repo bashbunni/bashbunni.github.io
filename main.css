@@ -65,6 +65,10 @@ footer {
   color: #1a8cd8;
 }
 
+.mastodon:hover {
+    color: #5638cc;
+}
+
 .bluesky:hover {
   color: #208bfe;
 }
