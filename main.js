@@ -5212,41 +5212,34 @@ var $author$project$Main$about = A2(
 	_List_Nil,
 	_List_fromArray(
 		[
-			$elm$html$Html$text('I\'m a software developer and content creator who builds mostly with Go. I do developer relations at'),
-			A2(
-			$elm$html$Html$a,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('charm'),
-					$elm$html$Html$Attributes$href('https://charm.sh'),
-					$elm$html$Html$Attributes$alt('charm website'),
-					$elm$html$Html$Attributes$target('_blank')
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text(' @charmcli')
-				])),
-			$elm$html$Html$text(' which is top tier ~fabulous~.'),
+			$elm$html$Html$text('I\'m a software developer and content creator who builds mostly with Go. I\'m also currently learning Rust which is top tier ~fabulous~.'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
 			_List_fromArray(
 				[
-					$elm$html$Html$text(' I hack on open source projects (my own, Charm\'s, and others) in public on my Twitch channel. I also have a YouTube channel where I post more curated content on what I\'m learning. I love long form content because I resent how social media platforms can feel like a highlight reel of people\'s lives, when in reality, we all struggle, especially when coding (heh).')
-				])),
-			A2(
-			$elm$html$Html$p,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$elm$html$Html$text(' My goal for my platforms is that I can help bring people closer to their goals by leading by example. I\'m not perfect, I\'ve got lots of things to learn and skills to develop, but I put myself out there anyway. I learn new things in front of an audience so people can see the *real* process of building skills and not just the highlights.')
+					$elm$html$Html$text(' I hack on open source projects in public on my Twitch channel. I also have a '),
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('youtube'),
+							$elm$html$Html$Attributes$href('https://youtube.com/bashbunni'),
+							$elm$html$Html$Attributes$alt('bashbunni\'s youtube channel'),
+							$elm$html$Html$Attributes$target('_blank')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(' YouTube')
+						])),
+					$elm$html$Html$text(' channel where I post more curated content on what I\'m learning. I love long form content because I know social media platforms can feel like a highlight reel of people\'s lives, but I like that long form gives you space to share the challenges and messy parts of learning.')
 				])),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
 			_List_fromArray(
 				[
-					$elm$html$Html$text(' My goal is to show that achieving your goals is doable but takes dedication and I hope to continue to inspire and motivate people with my content.')
+					$elm$html$Html$text(' My goal for my platforms is to foster community. I want to create a space that leaves you feeling excited and inspired around software. I\'m not perfect, I\'ve got lots of things to learn and skills to develop, but I put myself out there anyway. I learn new things in front of an audience so people can see the *real* process of building skills and not just the highlights. I strive to support the developer community and empower others to pursue challenge and stay curious.')
 				]))
 		]));
 var $elm$html$Html$footer = _VirtualDom_node('footer');

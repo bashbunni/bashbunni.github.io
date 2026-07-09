@@ -108,18 +108,19 @@ renderUl items =
 about : Html Msg
 about =
     div []
-        [ text "I'm a software developer and content creator who builds mostly with Go. I do developer relations at"
-        , a
-            [ class "charm"
-            , href "https://charm.sh"
-            , alt "charm website"
-            , target "_blank"
+        [ text "I'm a software developer and content creator who builds mostly with Go. I'm also currently learning Rust which is top tier ~fabulous~."
+        , p []
+            [ text " I hack on open source projects in public on my Twitch channel. I also have a "
+            , a
+                [ class "youtube"
+                , href "https://youtube.com/bashbunni"
+                , alt "bashbunni's youtube channel"
+                , target "_blank"
+                ]
+                [ text " YouTube" ]
+            , text " channel where I post more curated content on what I'm learning. I love long form content because I know social media platforms can feel like a highlight reel of people's lives, but I like that long form gives you space to share the challenges and messy parts of learning."
             ]
-            [ text " @charmcli" ]
-        , text " which is top tier ~fabulous~."
-        , p [] [ text " I hack on open source projects (my own, Charm's, and others) in public on my Twitch channel. I also have a YouTube channel where I post more curated content on what I'm learning. I love long form content because I resent how social media platforms can feel like a highlight reel of people's lives, when in reality, we all struggle, especially when coding (heh)." ]
-        , p [] [ text " My goal for my platforms is that I can help bring people closer to their goals by leading by example. I'm not perfect, I've got lots of things to learn and skills to develop, but I put myself out there anyway. I learn new things in front of an audience so people can see the *real* process of building skills and not just the highlights." ]
-        , p [] [ text " My goal is to show that achieving your goals is doable but takes dedication and I hope to continue to inspire and motivate people with my content." ]
+        , p [] [ text " My goal for my platforms is to foster community. I want to create a space that leaves you feeling excited and inspired around software. I'm not perfect, I've got lots of things to learn and skills to develop, but I put myself out there anyway. I learn new things in front of an audience so people can see the *real* process of building skills and not just the highlights. I strive to support the developer community and empower others to pursue challenge and stay curious." ]
         ]
 
 
