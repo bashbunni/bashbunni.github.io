@@ -1,26 +1,36 @@
-module Page.Links exposing (..)
+module Page.Links exposing (Model, Msg, init, update, view)
 
-import Browser.Navigation as Nav
 import Html exposing (..)
 
 
+
+-- MODEL
+
+
 type alias Model =
-    { key : Nav.Key
-    }
+    {}
 
 
-init : Nav.Key -> ( Model, Cmd Msg )
-init key =
-    ( Model key, Cmd.none )
+init : ( Model, Cmd Msg )
+init =
+    ( {}, Cmd.none )
+
+
+
+-- UPDATE
 
 
 type Msg
-    = Content String
+    = NoOp
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update _ model =
-    model
+    ( model, Cmd.none )
+
+
+
+-- VIEW
 
 
 view : Model -> Html Msg

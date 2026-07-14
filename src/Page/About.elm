@@ -1,8 +1,8 @@
-module Page.About exposing (..)
+module Page.About exposing (Model, Msg, init, update, view)
 
-import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Url.Builder exposing (absolute)
 
 
 
@@ -10,13 +10,12 @@ import Html.Attributes exposing (..)
 
 
 type alias Model =
-    { key : Nav.Key
-    }
+    {}
 
 
-init : Nav.Key -> ( Model, Cmd Msg )
-init key =
-    ( Model key, Cmd.none )
+init : ( Model, Cmd Msg )
+init =
+    ( {}, Cmd.none )
 
 
 
@@ -24,12 +23,12 @@ init key =
 
 
 type Msg
-    = Content String
+    = NoOp
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update _ model =
-    model
+    ( model, Cmd.none )
 
 
 
@@ -39,13 +38,20 @@ update _ model =
 view : Model -> Html Msg
 view model =
     div []
-        [ typing model
-        , section [ class "output" ]
-            [ links model
-            , about
-            , interests
+        [ div []
+            [ links
+                (internalLinkList navLinks)
             ]
-        , credit
+        , div
+            []
+            [ typing model
+            , section [ class "output" ]
+                [ links (externalLinkList socialLinks)
+                , about
+                , interests
+                ]
+            , credit
+            ]
         ]
 
 
@@ -60,7 +66,34 @@ typing _ =
 
 
 
--- LINKS
+-- NAV
+
+
+navLinks : List Link
+navLinks =
+    [ Link "blog" (absolute [ "blog" ] [])
+    , Link "links" (absolute [ "links" ] [])
+    ]
+
+
+internalLinkList : List Link -> List (Html Msg)
+internalLinkList items =
+    items
+        |> List.map
+            (\link ->
+                li []
+                    [ a
+                        [ class link.name
+                        , href link.url
+                        , alt link.name
+                        ]
+                        [ text link.name ]
+                    ]
+            )
+
+
+
+-- SOCIAL LINKS
 
 
 type alias Link =
@@ -79,13 +112,13 @@ socialLinks =
     ]
 
 
-links : Model -> Html Msg
-links _ =
-    ul [ class "links" ] (viewLinks socialLinks)
+links : List (Html Msg) -> Html Msg
+links htmlList =
+    ul [ class "links" ] htmlList
 
 
-viewLinks : List Link -> List (Html Msg)
-viewLinks items =
+externalLinkList : List Link -> List (Html Msg)
+externalLinkList items =
     items
         |> List.map
             (\link ->

@@ -13,7 +13,7 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          name = "elm-integer";
+          name = "elm-site";
 
           packages = with pkgs.elmPackages; [
             elm

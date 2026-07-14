@@ -1,8 +1,13 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import Browser
+import Browser.Navigation as Nav
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Page.About as About
+import Page.Links as Links
+import Url
+import Url.Builder exposing (absolute)
+import Url.Parser as Parser exposing (Parser)
 
 
 
@@ -11,7 +16,14 @@ import Html.Attributes exposing (..)
 
 main : Program () Model Msg
 main =
-    Browser.sandbox { init = init, update = update, view = view }
+    Browser.application
+        { init = init
+        , update = update
+        , view = view
+        , subscriptions = subscriptions
+        , onUrlChange = UrlChanged
+        , onUrlRequest = LinkClicked
+        }
 
 
 
@@ -19,12 +31,93 @@ main =
 
 
 type alias Model =
-    Int
+    { key : Nav.Key
+    , page : Page
+    }
 
 
-init : Model
-init =
-    0
+
+-- ROUTING
+-- what do we show?
+
+
+type Page
+    = Home About.Model
+    | Links Links.Model
+    | NotFound
+
+
+
+-- where are we?
+
+
+type Route
+    = HomeRoute
+    | LinksRoute
+    | NotFoundRoute
+
+
+routeToString : Route -> String
+routeToString route =
+    case route of
+        HomeRoute ->
+            absolute [] []
+
+        LinksRoute ->
+            absolute [ "links" ] []
+
+        NotFoundRoute ->
+            absolute [ "notfound" ] []
+
+
+urlToRoute : Url.Url -> Route
+urlToRoute url =
+    Parser.parse routeParser url
+        |> Maybe.withDefault NotFoundRoute
+
+
+routeParser : Parser (Route -> a) a
+routeParser =
+    Parser.oneOf
+        [ Parser.map HomeRoute Parser.top
+        , Parser.map LinksRoute (Parser.s "links")
+        ]
+
+
+
+-- INIT
+
+
+init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init _ url key =
+    changeRouteTo (urlToRoute url) { key = key, page = NotFound }
+
+
+changeRouteTo : Route -> Model -> ( Model, Cmd Msg )
+changeRouteTo route model =
+    case route of
+        HomeRoute ->
+            About.init
+                |> updateWith Home GotAboutMsg model
+
+        LinksRoute ->
+            Links.init
+                |> updateWith Links GotLinksMsg model
+
+        NotFoundRoute ->
+            ( { model | page = NotFound }, Cmd.none )
+
+
+updateWith :
+    (subModel -> Page)
+    -> (subMsg -> Msg)
+    -> Model
+    -> ( subModel, Cmd subMsg )
+    -> ( Model, Cmd Msg )
+updateWith toPage toMsg model ( subModel, subCmd ) =
+    ( { model | page = toPage subModel }
+    , Cmd.map toMsg subCmd
+    )
 
 
 
@@ -32,135 +125,70 @@ init =
 
 
 type Msg
-    = Content String
+    = LinkClicked Browser.UrlRequest
+    | UrlChanged Url.Url
+    | GotAboutMsg About.Msg
+    | GotLinksMsg Links.Msg
 
 
-update : Msg -> Model -> Model
-update _ model =
-    model
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case ( msg, model.page ) of
+        ( LinkClicked urlRequest, _ ) ->
+            case urlRequest of
+                Browser.Internal url ->
+                    -- pushUrl changes URL, doesn't load new HTML (we need to
+                    -- handle this ourselves). It also adds to the "browser
+                    -- history" so users can use back and forward button.
+                    ( model, Nav.pushUrl model.key (Url.toString url) )
+
+                Browser.External href ->
+                    ( model, Nav.load href )
+
+        ( UrlChanged url, _ ) ->
+            changeRouteTo (urlToRoute url) model
+
+        ( GotAboutMsg subMsg, Home about ) ->
+            About.update subMsg about
+                |> updateWith Home GotAboutMsg model
+
+        ( GotLinksMsg subMsg, Links links ) ->
+            Links.update subMsg links
+                |> updateWith Links GotLinksMsg model
+
+        ( _, _ ) ->
+            ( model, Cmd.none )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.none
 
 
 
 -- VIEW
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    div []
-        [ typing model
-        , section [ class "output" ]
-            [ links model
-            , about
-            , interests
-            ]
-        , credit
-        ]
+    let
+        viewPage toMsg title pageView =
+            { title = title
+            , body = [ Html.map toMsg pageView ]
+            }
+    in
+    case model.page of
+        Home about ->
+            viewPage GotAboutMsg "bashbunni" (About.view about)
 
+        Links links ->
+            viewPage GotLinksMsg "Links" (Links.view links)
 
-typing : Model -> Html Msg
-typing _ =
-    div [ class "typeme" ]
-        [ span [ class "text-secondary" ] [ text "bashbunni@bunnibrain " ]
-        , span [ class "text-background" ] [ text " ~ " ]
-        , span [ class "cursor" ] [ text " $ " ]
-        , text "me -h"
-        ]
-
-
-type alias Link =
-    { name : String
-    , url : String
-    }
-
-
-socials : List Link
-socials =
-    [ Link "twitch" "https://twitch.tv/bashbunni"
-    , Link "youtube" "https://youtube.com/bashbunni"
-    , Link "github" "https://github.com/bashbunni"
-    , Link "mastodon" "https://mastodon.social/@bashbunni"
-    , Link "twitter" "https://twitter.com/sudobunni"
-    ]
-
-
-links : Model -> Html Msg
-links _ =
-    ul [ class "links" ] (renderUl socials)
-
-
-renderUl : List Link -> List (Html Msg)
-renderUl items =
-    items
-        |> List.map
-            (\link ->
-                li []
-                    [ a
-                        [ class link.name
-                        , href link.url
-                        , alt link.name
-                        , target "_blank"
-                        ]
-                        [ text link.name ]
-                    ]
-            )
-
-
-about : Html Msg
-about =
-    div []
-        [ text "I'm a software developer and content creator who builds mostly with Go. I'm also currently learning Rust which is top tier ~fabulous~."
-        , p []
-            [ text " I hack on open source projects in public on my Twitch channel. I also have a "
-            , a
-                [ class "youtube"
-                , href "https://youtube.com/bashbunni"
-                , alt "bashbunni's youtube channel"
-                , target "_blank"
-                ]
-                [ text " YouTube" ]
-            , text " channel where I post more curated content on what I'm learning. I love long form content because I know social media platforms can feel like a highlight reel of people's lives, but I like that long form gives you space to share the challenges and messy parts of learning."
-            ]
-        , p [] [ text " My goal for my platforms is to foster community. I want to create a space that leaves you feeling excited and inspired around software. I'm not perfect, I've got lots of things to learn and skills to develop, but I put myself out there anyway. I learn new things in front of an audience so people can see the *real* process of building skills and not just the highlights. I strive to support the developer community and empower others to pursue challenge and stay curious." ]
-        ]
-
-
-interests : Html Msg
-interests =
-    div []
-        [ div []
-            [ span
-                [ class "text-secondary"
-                ]
-                [ text "bashbunni@bunnibrain " ]
-            , span
-                [ class "text-background"
-                ]
-                [ text " ~ " ]
-            , span
-                [ class "cursor"
-                ]
-                [ text " $ " ]
-            , text "glow interests.md"
-            ]
-        , h3 [] [ text "Interests" ]
-        , ul []
-            [ li [] [ text "linux (hence, bashbunni)" ]
-            , li [] [ text "terminals and terminal tools" ]
-            , li [] [ text "backend development" ]
-            , li []
-                [ text "cyber security" ]
-            ]
-        ]
-
-
-credit : Html Msg
-credit =
-    footer []
-        [ text "This site was styled with the"
-        , a
-            [ href "https://github.com/catppuccin"
-            , alt "catppuccin github"
-            , target "_blank"
-            ]
-            [ text " Catppuccin theme" ]
-        ]
+        NotFound ->
+            { title = "Not found"
+            , body = [ text "404" ]
+            }
