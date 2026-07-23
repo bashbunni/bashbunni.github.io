@@ -6,7 +6,6 @@ import Html exposing (..)
 import Page.About as About
 import Page.Links as Links
 import Url
-import Url.Builder exposing (absolute)
 import Url.Parser as Parser exposing (Parser)
 
 
@@ -55,19 +54,6 @@ type Route
     = HomeRoute
     | LinksRoute
     | NotFoundRoute
-
-
-routeToString : Route -> String
-routeToString route =
-    case route of
-        HomeRoute ->
-            absolute [] []
-
-        LinksRoute ->
-            absolute [ "links" ] []
-
-        NotFoundRoute ->
-            absolute [ "notfound" ] []
 
 
 urlToRoute : Url.Url -> Route
