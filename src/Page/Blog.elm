@@ -3,7 +3,7 @@ module Page.Blog exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (alt, class, href)
 import Http
-import Json.Decode exposing (Decoder, field, int, list, map3, map5, string)
+import Json.Decode exposing (Decoder, field, int, list, map3, map4, string)
 
 
 type State
@@ -100,22 +100,32 @@ errorToString error =
 
 type alias Blog =
     { title : String
-    , author : String
+    , author : Author
     , items : List Post
     }
+
+
+type alias Author =
+    { name : String
+    }
+
+
+authorDecoder : Decoder Author
+authorDecoder =
+    Json.Decode.map Author
+        (field "name" string)
 
 
 blogDecoder : Decoder Blog
 blogDecoder =
     map3 Blog
         (field "title" string)
-        (field "author" string)
+        (field "author" authorDecoder)
         (field "items" (list postDecoder))
 
 
 type alias Post =
-    { id : Int
-    , url : String
+    { url : String
     , title : String
     , content : String
     , datePublished : String
@@ -124,8 +134,7 @@ type alias Post =
 
 postDecoder : Decoder Post
 postDecoder =
-    map5 Post
-        (field "id" int)
+    map4 Post
         (field "url" string)
         (field "title" string)
         (field "content_html" string)

@@ -4,6 +4,7 @@ import Browser
 import Browser.Navigation as Nav
 import Html exposing (..)
 import Page.About as About
+import Page.Blog as Blog
 import Page.Links as Links
 import Url
 import Url.Parser as Parser exposing (Parser)
@@ -43,6 +44,7 @@ type alias Model =
 type Page
     = Home About.Model
     | Links Links.Model
+    | Blog Blog.Model
     | NotFound
 
 
@@ -53,6 +55,7 @@ type Page
 type Route
     = HomeRoute
     | LinksRoute
+    | BlogRoute
     | NotFoundRoute
 
 
@@ -67,6 +70,7 @@ routeParser =
     Parser.oneOf
         [ Parser.map HomeRoute Parser.top
         , Parser.map LinksRoute (Parser.s "links")
+        , Parser.map BlogRoute (Parser.s "blog")
         ]
 
 
@@ -89,6 +93,10 @@ changeRouteTo route model =
         LinksRoute ->
             Links.init
                 |> updateWith Links GotLinksMsg model
+
+        BlogRoute ->
+            Blog.init
+                |> updateWith Blog GotBlogMsg model
 
         NotFoundRoute ->
             ( { model | page = NotFound }, Cmd.none )
@@ -115,6 +123,7 @@ type Msg
     | UrlChanged Url.Url
     | GotAboutMsg About.Msg
     | GotLinksMsg Links.Msg
+    | GotBlogMsg Blog.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -141,6 +150,10 @@ update msg model =
         ( GotLinksMsg subMsg, Links links ) ->
             Links.update subMsg links
                 |> updateWith Links GotLinksMsg model
+
+        ( GotBlogMsg subMsg, Blog blog ) ->
+            Blog.update subMsg blog
+                |> updateWith Blog GotBlogMsg model
 
         ( _, _ ) ->
             ( model, Cmd.none )
@@ -173,6 +186,9 @@ view model =
 
         Links links ->
             viewPage GotLinksMsg "Links" (Links.view links)
+
+        Blog blog ->
+            viewPage GotBlogMsg "Blog" (Blog.view blog)
 
         NotFound ->
             { title = "Not found"
