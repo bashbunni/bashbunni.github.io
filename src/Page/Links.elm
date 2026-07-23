@@ -37,3 +37,11 @@ view : Model -> Html Msg
 view _ =
     div []
         [ text "welcome to my affiliate links" ]
+
+
+
+-- LINKS
+-- Need to add:
+-- keyboard
+-- amazon shop
+--
