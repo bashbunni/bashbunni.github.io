@@ -2,41 +2,75 @@ module Page.Blog exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (alt, class, href)
-import Json.Decode exposing (Decoder, int, list, map3, string)
+import Http
+import Json.Decode exposing (Decoder, field, int, list, map3, map5, string)
+
+
+type State
+    = Loading
+    | ErrView string
+    | Loaded
 
 
 type alias Model =
-    { blog : Blog }
+    { blog : Blog
+    , state : State
+    }
 
 
 displayPosts : Model -> Html Msg
 displayPosts model =
-    model.blog.items
-        |> List.map
-            (\item ->
-                [ a
-                    [ class "blog-link"
-                    , href item.url
-                    , alt item.title
-                    ]
-                    [ text item.title ]
-                ]
-            )
+    ul []
+        (model.blog.items
+            |> List.map
+                (\item ->
+                    li []
+                        [ a
+                            [ class "blog-link"
+                            , href item.url
+                            , alt item.title
+                            ]
+                            [ text item.title ]
+                        ]
+                )
+        )
 
 
 type Msg
-    = NoOp
+    = GotBlog (Result Http.Error Blog)
+
+
+empty : Model
+empty =
+    { blog =
+        { title = ""
+        , author = ""
+        , items = []
+        }
+    , state = Loading
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    -- read json file
-    ( Model, Cmd.none )
+    -- command fetches + decodes blog posts
+    ( empty
+    , Http.get
+        { url = "/posts.json"
+        , expect = Http.expectJson GotBlog blogDecoder
+        }
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update _ model =
-    ( model, Cmd.none )
+update msg model =
+    case msg of
+        GotBlog (Ok result) ->
+            -- do something if everything loaded
+            ( { model | blog = result }, Cmd.none )
+
+        GotBlog (Err result) ->
+            ( { model | state = ErrView result }, Cmd.none )
 
 
 view : Model -> Html Msg
